@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-16"?>
-<!-- SOURCE TEMPLATE ONLY — do not import in a PR. Install after Cursor PASS via Desk Code.
-     Task name: GPU-Overnight-Queue
-     Window: daily 01:00 America/Los_Angeles, stop by 07:00
--->
+<!-- SOURCE TEMPLATE. Register only after Cursor PASS, with: python -I scheduler\install_task.py install
+     (it writes a UTF-16 copy to Tools/gpu/scratch and runs schtasks /Create /XML on it).
+     Task name: GPU-Overnight-Queue. Window: daily 01:00 local (America/Los_Angeles), hard stop after 6 h.
+     overnight_queue.py checks the window again and stops starting jobs before 07:00. -->
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Description>Drain reviewed GPU overnight queue (1–7 AM PT)</Description>
-    <URI>\\GPU-Overnight-Queue</URI>
+    <Description>Drain the reviewed GPU overnight queue, 1-7 AM Pacific (gpu-control item 4)</Description>
+    <URI>\GPU-Overnight-Queue</URI>
   </RegistrationInfo>
   <Triggers>
     <CalendarTrigger>
-      <StartBoundary>2026-11-22T01:00:00</StartBoundary>
+      <StartBoundary>2026-11-23T01:00:00</StartBoundary>
       <Enabled>true</Enabled>
       <ScheduleByDay>
         <DaysInterval>1</DaysInterval>
@@ -27,14 +27,19 @@
     <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <StartWhenAvailable>false</StartWhenAvailable>
+    <WakeToRun>false</WakeToRun>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <AllowHardTerminate>true</AllowHardTerminate>
     <ExecutionTimeLimit>PT6H</ExecutionTimeLimit>
+    <Priority>7</Priority>
     <Enabled>true</Enabled>
   </Settings>
   <Actions Context="Author">
     <Exec>
-      <Command>C:\\Users\\edwar\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe</Command>
-      <Arguments>-I C:\\Users\\edwar\\Tools\\gpu\\scheduler\\overnight_queue.py</Arguments>
-      <WorkingDirectory>C:\\Users\\edwar\\Tools\\gpu\\scratch</WorkingDirectory>
+      <Command>C:\Users\edwar\AppData\Local\Python\pythoncore-3.14-64\python.exe</Command>
+      <Arguments>-I C:\Users\edwar\Tools\gpu\scheduler\overnight_queue.py</Arguments>
+      <WorkingDirectory>C:\Users\edwar\Tools\gpu\scratch</WorkingDirectory>
     </Exec>
   </Actions>
 </Task>
