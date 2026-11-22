@@ -1,0 +1,2 @@
+# Job scripts are approved by the sha256 of their exact bytes; never convert line endings.
+jobs/scripts/** -text
