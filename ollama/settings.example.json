@@ -1,0 +1,23 @@
+{
+  "endpoint": "http://127.0.0.1:11434",
+  "models": {
+    "embed": {
+      "id": "all-minilm:22m",
+      "digest": null,
+      "keep_alive": 0
+    },
+    "t7": {
+      "id": "local-warden:t7-ckpt153-q8",
+      "digest": null,
+      "keep_alive": "10m",
+      "num_ctx": 8192
+    }
+  },
+  "restart_policy": {
+    "allow_restart": false,
+    "notes": "Restart only through reviewed Desk Code after Cursor PASS"
+  },
+  "parallel": null,
+  "flash_attention": null,
+  "notes": "Example only — copy to Tools/gpu/ollama/settings.json after review; never commit live digests/secrets here if sensitive"
+}

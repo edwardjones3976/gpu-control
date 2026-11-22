@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edwardjones3976/gpu-control/ollama/settings.schema.json",
+  "title": "gpu-control Ollama settings",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["endpoint", "models"],
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "Local Ollama HTTP endpoint",
+      "default": "http://127.0.0.1:11434"
+    },
+    "models": {
+      "type": "object",
+      "description": "Named models keyed by logical role; values are exact model IDs",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "digest": { "type": ["string", "null"] },
+          "keep_alive": { "type": ["string", "number", "null"] },
+          "num_ctx": { "type": ["integer", "null"] }
+        }
+      }
+    },
+    "restart_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allow_restart": { "type": "boolean", "default": false },
+        "notes": { "type": "string" }
+      }
+    },
+    "parallel": { "type": ["integer", "null"], "minimum": 1 },
+    "flash_attention": { "type": ["boolean", "null"] },
+    "notes": { "type": "string" }
+  }
+}

@@ -1,0 +1,20 @@
+[project]
+name = "gpu-control"
+version = "0.1.0"
+description = "Providers → Desk Code → GPU control plane for BlackBox RTX 5070"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Edward L Jones IV" }]
+dependencies = []
+
+[project.optional-dependencies]
+torch = []  # install CUDA torch from the pinned local wheel / index; not declared here
+dev = ["ruff>=0.6"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]

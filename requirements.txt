@@ -1,0 +1,7 @@
+# Minimal runtime: local_gpu.py is standard-library only on Windows.
+# Optional CUDA PyTorch (install separately; do not commit wheels):
+#   Use the reviewed local wheel under Tools/gpu/wheels/ or a CUDA index URL.
+#   Example (runtime only): torch==2.15.0+cu132
+#
+# Dev / CI (syntax + lint; no GPU required):
+ruff>=0.6.0

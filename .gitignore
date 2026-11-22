@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Runtime / Desk Code (never commit)
+scratch/
+*.lease
+jobs/runtime/
+jobs/queue/
+jobs/logs/
+*.log
+
+# Models / blobs / secrets
+models/
+*.gguf
+*.safetensors
+*.bin
+.ollama/
+ollama/blobs/
+ollama/settings.json
+.env
+.env.*
+!.env.example
+secrets/
+*.secret
+*.dpapi
+*.pem
+*.key
+
+# Local wheels and large artifacts
+wheels/
+*.whl
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# AppData-style state mirrors
+.state/
+leases/
+writer.lock
+info.json
