@@ -1,7 +1,8 @@
 """cuda_probe: quick, read-only check that PyTorch can use the local GPU, plus three measurements.
 
-Run through Desk Code shell.run:
-  C:\\Users\\edwar\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe -I C:\\Users\\edwar\\Tools\\gpu\\cuda_probe.py
+Run through Desk Code shell.run (one command line):
+  C:\\Users\\edwar\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe -I
+      C:\\Users\\edwar\\Tools\\gpu\\cuda_probe.py
 Prints one JSON object. Uses about 0.6 GB of GPU memory for a few seconds, then frees it.
 """
 import json

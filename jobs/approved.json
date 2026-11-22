@@ -1,0 +1,11 @@
+{
+  "notes": "Job scripts the runner may execute, keyed by the sha256 of the exact file in jobs/scripts/. An entry counts only when reviewed_by names a provider other than author. Add or change entries only through a reviewed PR; the installed copy lives at Tools/gpu/jobs/approved.json.",
+  "approved": {
+    "PENDING-cuda_matmul": {
+      "script": "cuda_matmul.py",
+      "author": "claude@blackbox",
+      "reviewed_by": null,
+      "review": "The reviewer replaces this key with the file's sha256 and fills reviewed_by in their review PR."
+    }
+  }
+}
