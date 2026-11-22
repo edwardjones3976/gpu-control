@@ -2,26 +2,29 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/edwardjones3976/gpu-control/ollama/settings.schema.json",
   "title": "gpu-control Ollama settings",
+  "description": "Read by ollama/control.py (plan/apply). Each non-null tuning key sets one user variable in HKCU\\Environment; null leaves it alone. control.py validate() enforces the same rules without a schema library.",
   "type": "object",
   "additionalProperties": false,
   "required": ["endpoint", "models"],
   "properties": {
     "endpoint": {
       "type": "string",
-      "description": "Local Ollama HTTP endpoint",
-      "default": "http://127.0.0.1:11434"
+      "enum": ["http://127.0.0.1:11434", "http://localhost:11434"],
+      "description": "Local Ollama only"
     },
     "models": {
       "type": "object",
+      "minProperties": 1,
       "description": "Named models keyed by logical role; values are exact model IDs",
       "additionalProperties": {
         "type": "object",
+        "additionalProperties": false,
         "required": ["id"],
         "properties": {
-          "id": { "type": "string" },
-          "digest": { "type": ["string", "null"] },
-          "keep_alive": { "type": ["string", "number", "null"] },
-          "num_ctx": { "type": ["integer", "null"] }
+          "id": { "type": "string", "pattern": "^[A-Za-z0-9._\\-/]+(:[A-Za-z0-9._\\-]+)?$" },
+          "digest": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+          "keep_alive": { "type": ["string", "integer", "null"] },
+          "num_ctx": { "type": ["integer", "null"], "minimum": 512, "maximum": 131072 }
         }
       }
     },
@@ -33,8 +36,31 @@
         "notes": { "type": "string" }
       }
     },
-    "parallel": { "type": ["integer", "null"], "minimum": 1 },
-    "flash_attention": { "type": ["boolean", "null"] },
+    "keep_alive": {
+      "type": ["string", "integer", "null"],
+      "pattern": "^-?\\d+(\\.\\d+)?(ms|s|m|h)?$",
+      "description": "OLLAMA_KEEP_ALIVE: how long a model stays loaded after its last request"
+    },
+    "parallel": {
+      "type": ["integer", "null"], "minimum": 1, "maximum": 8,
+      "description": "OLLAMA_NUM_PARALLEL: requests served side by side per model"
+    },
+    "flash_attention": {
+      "type": ["boolean", "null"],
+      "description": "OLLAMA_FLASH_ATTENTION (1/0). Changes T7's numbers: re-check T7 after changing"
+    },
+    "kv_cache_type": {
+      "enum": ["f16", "q8_0", "q4_0", null],
+      "description": "OLLAMA_KV_CACHE_TYPE. q8_0/q4_0 need flash_attention true and a T7 re-check"
+    },
+    "max_loaded_models": {
+      "type": ["integer", "null"], "minimum": 1, "maximum": 3,
+      "description": "OLLAMA_MAX_LOADED_MODELS"
+    },
+    "cuda_cache_maxsize": {
+      "type": ["integer", "null"], "minimum": 0, "maximum": 4294967296,
+      "description": "CUDA_CACHE_MAXSIZE in bytes: the driver's compile cache for Ollama's PTX-only CUDA code"
+    },
     "notes": { "type": "string" }
   }
 }

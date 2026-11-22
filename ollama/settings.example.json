@@ -3,7 +3,7 @@
   "models": {
     "embed": {
       "id": "all-minilm:22m",
-      "digest": null,
+      "digest": "1b226e2802dbb772b5fc32a58f103ca1804ef7501331012de126ab22f67475ef",
       "keep_alive": 0
     },
     "t7": {
@@ -15,9 +15,13 @@
   },
   "restart_policy": {
     "allow_restart": false,
-    "notes": "Restart only through reviewed Desk Code after Cursor PASS"
+    "notes": "Example only. Copy to Tools/gpu/ollama/settings.json and set allow_restart true only after the bench table and Cursor PASS."
   },
-  "parallel": null,
+  "keep_alive": "30m",
+  "parallel": 2,
   "flash_attention": null,
-  "notes": "Example only — copy to Tools/gpu/ollama/settings.json after review; never commit live digests/secrets here if sensitive"
+  "kv_cache_type": null,
+  "max_loaded_models": 1,
+  "cuda_cache_maxsize": 4294967296,
+  "notes": "flash_attention and kv_cache_type stay null until T7 is re-checked with them (owner rule 2026-11-21)."
 }
