@@ -1,2 +1,5 @@
+# Every checkout writes LF, the same bytes as the git blobs, whatever core.autocrlf is set to on the machine.
+# Hash-checked files (runner.py, approved.json, the installed runtime) depend on it.
+* text=auto eol=lf
 # Job scripts are approved by the sha256 of their exact bytes; never convert line endings.
 jobs/scripts/** -text
