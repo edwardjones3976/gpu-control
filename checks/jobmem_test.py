@@ -88,7 +88,8 @@ if out["cap_gb"] is not None:
     info = EXT()
     info.Basic.LimitFlags = LIMIT_JOB_MEMORY | LIMIT_KILL_ON_JOB_CLOSE
     info.JobMemoryLimit = int(out["cap_gb"] * GIB)
-    out["set_limit_ok"] = bool(k32.SetInformationJobObject(job, EXTENDED_LIMIT_INFO, ctypes.byref(info), ctypes.sizeof(info)))
+    out["set_limit_ok"] = bool(
+        k32.SetInformationJobObject(job, EXTENDED_LIMIT_INFO, ctypes.byref(info), ctypes.sizeof(info)))
     out["assign_ok"] = bool(k32.AssignProcessToJobObject(job, k32.GetCurrentProcess()))
     out["assign_error"] = ctypes.get_last_error() if not out["assign_ok"] else 0
 
