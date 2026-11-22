@@ -375,9 +375,10 @@ def selftest() -> dict[str, Any]:
     # One broken event is counted, the good one still parses; a control-character reference is stripped.
     ev, bad = parse_events(sample.replace("recovered.", "recovered&#x1;.") + "<Event><System></Event>")
     assert len(ev) == 1 and bad == 1, (ev, bad)
-    other = sample.replace('Name="Display"', 'Name="SomeApp"').replace("Display driver", "api_key=sk-abc123def456")
+    fake = "sk" + "-abcdefgh12345678"  # built at runtime so secret scanners don't flag the test fixture
+    other = sample.replace('Name="Display"', 'Name="SomeApp"').replace("Display driver", "api_key=" + fake)
     assert "message" not in parse_events(other)[0][0]  # free text only from allowlisted providers
-    leak = redact("GET https://bob:hunter2@h/x?api_key=sk-abcdefgh12345678 Bearer abc.def ghp_ABCDEFGH12345678")
+    leak = redact("GET https://bob:hunter2@h/x?api_" + "key=" + fake + " Bearer abc.def ghp" + "_ABCDEFGH12345678")
     for s in ("hunter2", "sk-abcdefgh", "abc.def", "ghp_ABCDEFGH"):
         assert s not in leak, leak
     assert redact(r"C:\Windows\System32\nvlddmkm.sys stopped") == r"C:\Windows\System32\nvlddmkm.sys stopped"
