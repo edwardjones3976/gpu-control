@@ -2,7 +2,7 @@
 
 Runtime settings file (not in git): `C:/Users/edwar/Tools/gpu/ollama/settings.json`
 
-- `control.py`: `status`, `plan`, `apply`, `rollback`, `pull`, `bench`, `--selftest`. Each prints one JSON line.
+- `control.py`: `status`, `plan`, `apply`, `rollback`, `restart`, `pull`, `bench`, `--selftest`. Each prints one JSON line, also on errors.
 - `settings.schema.json`: shape of the settings file. `control.py` enforces the same rules with the standard library.
 - `settings.example.json`: example values, with `allow_restart: false`.
 
@@ -22,8 +22,11 @@ Each non-null key sets one user variable in `HKCU\Environment`; `null` leaves it
 ## Order (owner rules, 2026-11-21)
 
 1. `bench --model local-warden:t7-ckpt153-q8 --levels 1,2,4 --load-twice` with today's settings. Measure first.
-2. Write `Tools/gpu/ollama/settings.json` from the table, run `plan`, then `apply`. `apply` refuses while a Warden session runs or T7 is loaded. It saves the old variables to `previous.json`, writes the new ones, restarts Ollama outside the Desk Code job, and rolls back at once if GPU memory passes 11.5 GB or free PC memory drops under 2 GB.
-3. `bench` again. On a breach, `rollback`, then notify.
+2. Write `Tools/gpu/ollama/settings.json` from the table, run `plan`, then `apply`.
+   - **Refusals.** `apply` refuses, with nothing written, while a Warden session runs, while T7 is loaded, while `/api/ps` doesn't answer, while a heavy lease is held, or while an earlier apply is unconfirmed.
+   - **Steps.** It saves the old variables to `previous.json` and writes the new ones. It restarts Ollama outside the Desk Code job, then checks the `server config` line in `server.log` to confirm Ollama really started with the new values. Finally it loads each configured model while sampling memory.
+   - **Rollback.** Any failure, a mismatch, or a breach (GPU memory > 11.5 GB, free PC memory < 2 GB, or an unreadable GPU) rolls back at once.
+3. `bench` again. A breach rolls back automatically when the active values came from an apply; then notify.
 4. Change `flash_attention` / `kv_cache_type` only with a T7 re-check (Cursor's 20-item test).
 
 Every action appends one line to `Tools/gpu/ollama/control.log.jsonl`.
