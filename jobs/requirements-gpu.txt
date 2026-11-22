@@ -1,0 +1,5 @@
+# Extra packages for Tools/gpu/venv (created with --system-site-packages, so the base Python's
+# CUDA torch 2.15.0+cu132 is visible). Installed by `runner.py setup-venv` with --require-hashes --no-deps.
+# Every line needs an exact version and its sha256, e.g.:
+#   somepkg==1.2.3 --hash=sha256:<64 hex>
+# Add packages only through a reviewed PR.
